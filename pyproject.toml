@@ -7,6 +7,7 @@ authors = ["Richard Bieringa <richardbieringa@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.10"
 scapy = "^2.4.5"
+click = "^8.0.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
