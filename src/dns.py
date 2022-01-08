@@ -26,4 +26,14 @@ def get_ip_address(hostname: str, port: int = 443) -> List[int]:
     if not is_valid_hostname(hostname):
         raise ValueError(f"Hostname: {hostname} is not valid.")
 
-    print(socket.getaddrinfo(host=hostname, port=port, type=socket.SOCK_STREAM))
+    address_list = socket.getaddrinfo(host=hostname, port=port, type=socket.SOCK_STREAM)
+    for address in address_list:
+        (
+            address_family,
+            address_type,
+            address_proto,
+            address_canonname,
+            address_sockaddr,
+        ) = address
+        (ip, port) = address_sockaddr
+        print(ip)
