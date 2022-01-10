@@ -28,12 +28,10 @@ jobs:
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --statistics
 
-      - name: Black
-        run: |
-          pip install black
-          black . --check --target-version py310
+      - name: Black formatting
+        uses: psf/black@stable
 
-      - name: isort
+      - name: Import sortings (isort)
         run: |
           pip install isort
           isort .
