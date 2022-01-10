@@ -1,22 +1,12 @@
 import socket
-import re
 import logging
 
-logging.basicConfig(level=logging.INFO)
+from vtrace import utils
 
 from typing import List
 
+logging.basicConfig(level=logging.INFO)
 
-def is_valid_hostname(hostname: str) -> bool:
-    """Returns True if the hostname is valid"""
-
-    host_re = re.compile(
-        r"^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$"
-    )
-    matches = host_re.match(hostname)
-
-    logging.info("DNS::is_valid_hostname(%s) -> %s", hostname, bool(matches))
-    return bool(matches)
 
 
 def get_ip_address(hostname: str, port: int = 443) -> List[int]:
@@ -25,7 +15,7 @@ def get_ip_address(hostname: str, port: int = 443) -> List[int]:
     Uses socket.getaddrinfo
     https://docs.python.org/3/library/socket.html#socket.getaddrinfo"""
 
-    if not is_valid_hostname(hostname):
+    if not utils.is_valid_hostname(hostname):
         raise ValueError(f"Hostname: {hostname} is not valid.")
 
     # Gets the address info for the given hostname/port/protocol combo
