@@ -10,6 +10,7 @@ from scapy.layers import inet
 @dataclass(order=True)
 class TraceRouteResult:
     """Represents the return value of the traceroute command"""
+
     sort_index: int = field(init=False, repr=False)
 
     ttl: int = 0
@@ -53,26 +54,14 @@ def traceroute(
         # TCP_SYN protocol
         case TraceRouteProtocol.TCP_SYN:
             packet = inet.IP(
-                dst=target_ip,
-                id=inet.RandShort(),
-                ttl=(min_ttl, max_ttl)
-            ) \
-                / inet.TCP(
-                dport=destination_port,
-                sport=source_port,
-                flags="S"
-            )
+                dst=target_ip, id=inet.RandShort(), ttl=(min_ttl, max_ttl)
+            ) / inet.TCP(dport=destination_port, sport=source_port, flags="S")
 
         # ICMP protocol
         case TraceRouteProtocol.ICMP:
             packet = inet.IP(
-                dst=target_ip,
-                id=inet.RandShort(),
-                ttl=(min_ttl, max_ttl)
-            ) \
-                / inet.ICMP(
-                    id=inet.RandShort()
-            )
+                dst=target_ip, id=inet.RandShort(), ttl=(min_ttl, max_ttl)
+            ) / inet.ICMP(id=inet.RandShort())
 
         # UDP based traceroute
         case TraceRouteProtocol.UDP:
