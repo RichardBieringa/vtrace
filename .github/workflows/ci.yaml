@@ -30,6 +30,8 @@ jobs:
 
       - name: Black formatting
         uses: psf/black@stable
+        with:
+          options: "--check --target-version py310"
 
       - name: Import sortings (isort)
         run: |
