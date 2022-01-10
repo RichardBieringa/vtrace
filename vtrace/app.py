@@ -1,9 +1,8 @@
 import click
-import re
-
 
 from vtrace import traceroute
 from vtrace import dns
+from vtrace import utils
 
 
 @click.command()
@@ -29,11 +28,7 @@ def main(
 ) -> None:
     """Visually trace the route to a target"""
 
-    ip_address = None
-
-    # Check to see if the user passed an IP Address
-    ip_regex = re.compile(r"^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$")
-    if ip_regex.match(target):
+    if utils.is_valid_ipv4_address(target):
         ip_address = target
     else:
         ip_address = dns.get_ip_address(target)
