@@ -2,53 +2,74 @@ import enum
 import logging
 
 from typing import List
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from scapy.layers import inet
 from scapy import sendrecv
 
-from vtrace import dns
 
-
-@dataclass
+@dataclass(order=True)
 class TraceRouteResult:
     """Represents the return value of the traceroute command"""
+    sort_index: int = field(init=False, repr=False)
 
-    ttl: int
-    ip: str
-    rtt: float
+    ttl: int = 0
+    ip: str = "0.0.0.0"
+    rtt: float = 0
+
+    def __post_init__(self):
+        """Set the sort index of the dataclass, allows for sorting the TraceRouteResults"""
+        object.__setattr__(self, "sort_index", self.ttl)
 
 
-class TraceRouteProtocols(enum.Enum):
+class TraceRouteProtocol(enum.Enum):
     """Represents the types of traceroute requests the user can make"""
 
     TCP_SYN = enum.auto()
+    ICMP = enum.auto()
     UDP = enum.auto()
     DNS = enum.auto()
 
 
-MIN_TTL = 1
-MAX_TTL = 30
-
-
 def traceroute(
-    target: str, protocol: TraceRouteProtocols = TraceRouteProtocols.TCP_SYN
+    target_ip: str,
+    protocol: TraceRouteProtocol = TraceRouteProtocol.TCP_SYN,
+    min_ttl: int = 1,
+    max_ttl: int = 64,
+    source_port: int = None,
+    destination_port: int = 80,
+    timeout: int = 3,
+    verbose: bool = False,
 ) -> List[TraceRouteResult]:
     """Performs a traceroute request to the given host"""
+    logging.info("Traceroute::traceroute(%s)", target_ip)
 
-    logging.info("Traceroute::traceroute(%s)", target)
-    ip_addr = dns.get_ip_address(target)
+    # Generates a random port to send the packet from
+    if source_port is None:
+        source_port = inet.RandShort()
 
-    ttl = (0, MAX_TTL)
-    source_port = inet.RandShort()
-    destination_port = 80
+    packet = None
+    match protocol:
 
-    network = inet.IP(dst=ip_addr, id=inet.RandShort(), ttl=ttl)
-    transport = inet.TCP(dport=destination_port, sport=source_port)
+        # TCP_SYN protocol
+        case TraceRouteProtocol.TCP_SYN:
+            packet = inet.IP(dst=target_ip, id=inet.RandShort(), ttl=(min_ttl, max_ttl)) \
+                / inet.TCP(dport=destination_port, sport=source_port, flags="S")
 
-    packet = network / transport
+        # ICMP protocol
+        case TraceRouteProtocol.ICMP:
+            packet = inet.IP(dst=target_ip, id=inet.RandShort(), ttl=(min_ttl, max_ttl)) \
+                / inet.ICMP(id=inet.RandShort())
 
-    ans, unans = sendrecv.sr(packet, timeout=2, verbose=0)
+        # UDP based traceroute
+        case TraceRouteProtocol.UDP:
+            raise NotImplementedError("Protocol not implemented")
+
+        case _:
+            raise NotImplementedError("Protocol not implemented")
+
+    # Sends and receives packets
+    ans, _ = sendrecv.sr(packet, timeout=timeout, verbose=verbose)
 
     seen = {}
     results = []
@@ -64,5 +85,8 @@ def traceroute(
 
             entry = TraceRouteResult(send.ttl, receive.src, rtt)
             results.append(entry)
+    
+    # Sorts the results based on the TTL value
+    results.sort()
 
     return results
