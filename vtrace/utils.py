@@ -24,7 +24,6 @@ def is_valid_ipv6_address(ip_address: str) -> bool:
 def is_valid_hostname(hostname: str) -> bool:
     """Checks if the hostname is valid according to RFC 1123"""
 
-    # noqa: E501
     hostname_re = re.compile(
         r"^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$"  # noqa: E501
     )

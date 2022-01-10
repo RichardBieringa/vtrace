@@ -1,8 +1,6 @@
 import click
 
-from vtrace import traceroute
-from vtrace import dns
-from vtrace import utils
+from vtrace import dns, traceroute, utils
 
 
 @click.command()

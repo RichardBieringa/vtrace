@@ -1,10 +1,8 @@
-import socket
 import logging
-
+import socket
 from typing import List
 
 from vtrace import utils
-
 
 logging.basicConfig(level=logging.INFO)
 
@@ -23,7 +21,10 @@ def get_ip_address(hostname: str, port: int = 443) -> List[int]:
     # type=SOCK_STREAM -> tcp
     # port = 80/443 HTTP(S)
     address_list = socket.getaddrinfo(
-        host=hostname, port=port, family=socket.AF_INET, type=socket.SOCK_STREAM
+        host=hostname,
+        port=port,
+        family=socket.AF_INET,
+        type=socket.SOCK_STREAM,
     )
 
     # Returns only the ip address / port combo in the list

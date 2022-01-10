@@ -1,11 +1,10 @@
 import enum
 import logging
-
-from typing import List
 from dataclasses import dataclass, field
+from typing import List
 
-from scapy.layers import inet
 from scapy import sendrecv
+from scapy.layers import inet
 
 
 @dataclass(order=True)
