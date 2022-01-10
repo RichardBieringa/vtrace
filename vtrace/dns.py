@@ -1,12 +1,12 @@
 import socket
 import logging
 
-from vtrace import utils
-
 from typing import List
 
-logging.basicConfig(level=logging.INFO)
+from vtrace import utils
 
+
+logging.basicConfig(level=logging.INFO)
 
 
 def get_ip_address(hostname: str, port: int = 443) -> List[int]:

@@ -1,6 +1,6 @@
 import pytest
-from scapy import sendrecv
 
+from scapy import sendrecv
 from vtrace import traceroute
 
 

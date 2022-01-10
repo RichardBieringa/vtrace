@@ -70,6 +70,7 @@ def traceroute(
 
     # Sends and receives packets
     ans, _ = sendrecv.sr(packet, timeout=timeout, verbose=verbose)
+    print(ans)
     seen = {}
     results = []
     for send, receive in ans:
