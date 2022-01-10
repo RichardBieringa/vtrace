@@ -32,7 +32,7 @@ def main(
     ip_address = None
 
     # Check to see if the user passed an IP Address
-    ip_regex = re.compile("^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$")
+    ip_regex = re.compile(r"^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$")
     if ip_regex.match(target):
         ip_address = target
     else:
@@ -66,4 +66,4 @@ def main(
 
 
 if __name__ == "__main__":
-    main()
+    main()  # pylint: disable=no-value-for-parameter

@@ -70,7 +70,6 @@ def traceroute(
 
     # Sends and receives packets
     ans, _ = sendrecv.sr(packet, timeout=timeout, verbose=verbose)
-
     seen = {}
     results = []
     for send, receive in ans:
@@ -85,7 +84,7 @@ def traceroute(
 
             entry = TraceRouteResult(send.ttl, receive.src, rtt)
             results.append(entry)
-    
+   
     # Sorts the results based on the TTL value
     results.sort()
 
