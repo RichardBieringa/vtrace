@@ -36,11 +36,7 @@ def main(
     if ip_regex.match(target):
         ip_address = target
     else:
-        # Check to see if the user passed a DNS compliant hostname
-        if not dns.is_valid_hostname(target):
-            raise ValueError("Target is not a valid hostname")
-        else:
-            ip_address = dns.get_ip_address(target)
+        ip_address = dns.get_ip_address(target)
 
     # Allow only one mode (TCP/UDP/ICMP)
     if len([x for x in [tcp, udp, icmp] if x == True]) > 1:
