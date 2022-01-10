@@ -18,7 +18,7 @@ class TraceRouteResult:
     rtt: float = 0
 
     def __post_init__(self):
-        """Set the sort index of the dataclass, allows for sorting the TraceRouteResults"""
+        """Allows for sorting based on TraceRouteResult.ttl"""
         object.__setattr__(self, "sort_index", self.ttl)
 
 
@@ -53,13 +53,27 @@ def traceroute(
 
         # TCP_SYN protocol
         case TraceRouteProtocol.TCP_SYN:
-            packet = inet.IP(dst=target_ip, id=inet.RandShort(), ttl=(min_ttl, max_ttl)) \
-                / inet.TCP(dport=destination_port, sport=source_port, flags="S")
+            packet = inet.IP(
+                dst=target_ip,
+                id=inet.RandShort(),
+                ttl=(min_ttl, max_ttl)
+            ) \
+                / inet.TCP(
+                dport=destination_port,
+                sport=source_port,
+                flags="S"
+            )
 
         # ICMP protocol
         case TraceRouteProtocol.ICMP:
-            packet = inet.IP(dst=target_ip, id=inet.RandShort(), ttl=(min_ttl, max_ttl)) \
-                / inet.ICMP(id=inet.RandShort())
+            packet = inet.IP(
+                dst=target_ip,
+                id=inet.RandShort(),
+                ttl=(min_ttl, max_ttl)
+            ) \
+                / inet.ICMP(
+                    id=inet.RandShort()
+            )
 
         # UDP based traceroute
         case TraceRouteProtocol.UDP:
@@ -85,7 +99,7 @@ def traceroute(
 
             entry = TraceRouteResult(send.ttl, receive.src, rtt)
             results.append(entry)
-   
+
     # Sorts the results based on the TTL value
     results.sort()
 

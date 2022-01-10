@@ -34,15 +34,16 @@ def main(
         ip_address = dns.get_ip_address(target)
 
     # Allow only one mode (TCP/UDP/ICMP)
-    if len([x for x in [tcp, udp, icmp] if x == True]) > 1:
+    if len([x for x in [tcp, udp, icmp] if x]) > 1:
         raise ValueError("Can not combine TCP/UDP/ICMP flags (-T/-U/-I)")
 
     # Set the protocol based on the flag value, defaults to TCP_SYN
-    protocol = traceroute.TraceRouteProtocol.TCP_SYN
     if udp:
         protocol = traceroute.TraceRouteProtocol.UDP
     elif icmp:
         protocol = traceroute.TraceRouteProtocol.ICMP
+    else:
+        protocol = traceroute.TraceRouteProtocol.TCP_SYN
 
     # Perform the traceroute
     results = traceroute.traceroute(
