@@ -8,6 +8,7 @@ authors = ["Richard Bieringa <richardbieringa@gmail.com>"]
 python = "^3.10"
 scapy = "^2.4.5"
 click = "^8.0.3"
+ipinfo = "^4.2.1"
 
 [tool.poetry.scripts]
 cli = "vtrace.app:main"

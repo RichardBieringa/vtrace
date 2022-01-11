@@ -7,4 +7,4 @@
 Visual Traceroute application in Python3.
 
 Uses [Scapy](https://scapy.net/)
-Uses [Geo2IP](https://github.com/maxmind/GeoIP2-python)
+Uses [IPInfo](https://ipinfo.io/)
