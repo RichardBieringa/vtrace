@@ -17,7 +17,21 @@ def test_geolocation_class():
 
 def test_geolocation_service(monkeypatch):
     def mock_response(*args, **kwargs):
-        return (list(), list())
+        return geo.GeoLocationDetails(
+            bogon=False,
+            ip="142.250.179.174",
+            latitude="52.3740",
+            longitude="4.8897",
+            country_name="Netherlands",
+            hostname="ams15s41-in-f14.1e100.net",
+            city="Amsterdam",
+            country="NL",
+            region="North Holland",
+            loc="52.3740,4.8897",
+            org="AS15169 Google LLC",
+            postal="1012",
+            timezone="Europe/Amsterdam",
+        )
 
     monkeypatch.setattr(geo.Geolocator, "geolocate", mock_response)
 
@@ -27,4 +41,4 @@ def test_geolocation_service(monkeypatch):
     geolocator = geo.Geolocator(access_token=access_token)
     details = geolocator.geolocate(ip_address=ip_address)
 
-    print(details)
+    assert isinstance(details, geo.GeoLocationDetails)

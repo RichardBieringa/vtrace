@@ -1,6 +1,8 @@
 import os
 import ipinfo
+
 from typing import Optional
+from dataclasses import dataclass
 
 try:
     import dotenv
@@ -8,6 +10,28 @@ try:
     dotenv.load_dotenv()
 except ImportError:
     print("Dotenv not loaded")
+
+
+@dataclass
+class GeoLocationDetails:
+    """Represents the geolocation details returned from ipinfo.io"""
+
+    # Stuff thats always there
+    bogon: bool = False
+    ip: str = "0.0.0.0"
+    latitude: Optional[str] = None
+    longitude: Optional[str] = None
+    country_name: Optional[str] = None
+
+    # Only non "bogon" ip addresses have these properties
+    hostname: Optional[str] = None
+    city: Optional[str] = None
+    country: Optional[str] = None
+    region: Optional[str] = None
+    loc: Optional[str] = None
+    org: Optional[str] = None
+    postal: Optional[str] = None
+    timezone: Optional[str] = None
 
 
 class Geolocator:
@@ -21,9 +45,13 @@ class Geolocator:
         self.access_token = access_token
         self.handler = ipinfo.getHandler(access_token)
 
-    def geolocate(self, ip_address: str, timeout: int = 2) -> None:
-        """Synchronously request geolocation for an IP address"""
-        details = self.handler.getDetails(ip_address, timeout)
+    def geolocate(self, ip_address: str, timeout: int = 2) -> GeoLocationDetails:
+        """Synchronously request geolocation details for an IP address"""
 
-        print(details)
+        # The result from the ipinfo.io api
+        location = self.handler.getDetails(ip_address, timeout)
+
+        # Unpack it into our custom data class
+        details = GeoLocationDetails(**location.details)
+
         return details

@@ -1,6 +1,6 @@
 import click
 
-from vtrace import dns, traceroute, utils
+from vtrace import dns, geo, traceroute, utils
 
 
 @click.command()
@@ -54,9 +54,12 @@ def main(
         timeout=timeout,
     )
 
+    geolocator = geo.Geolocator()
+
     print(f"traceroute to {target} ({ip_address}), {max_ttl} hops max")
     for entry in results:
         print(f"{entry.ttl}\t{entry.ip}\t{entry.rtt:.2f}ms")
+        geo_details = geolocator.geolocate(entry.ip)
 
 
 if __name__ == "__main__":
