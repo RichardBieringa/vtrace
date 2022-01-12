@@ -1,3 +1,4 @@
+import os
 import tempfile
 import webbrowser
 
@@ -16,6 +17,7 @@ from vtrace import dns, geo, traceroute, utils, mapper
 @click.option("-T", "--tcp", default=0, type=bool, is_flag=True)
 @click.option("-I", "--icmp", default=0, type=bool, is_flag=True)
 @click.option("-U", "--udp", default=0, type=bool, is_flag=True)
+@click.option("--temp", default=0, type=bool, is_flag=True)
 def main(
     target: str,
     min_ttl: int,
@@ -26,6 +28,7 @@ def main(
     tcp: bool,
     icmp: bool,
     udp: bool,
+    temp: bool,
 ) -> None:
     """Visually trace the route to a target"""
 
@@ -79,10 +82,16 @@ def main(
 
     # Save the generated HTML map to a temporary file
     with tempfile.NamedTemporaryFile(delete=False, suffix=".html") as fp:
-        map.save(fp.name)
+        file_location = fp.name
+
+        # Save the file to html
+        map.save(file_location)
+
+        # Grant permissions
+        os.chmod(file_location, 0o755)
 
         # If a browser is available open the map in the browser
-        webbrowser.open(fp.name)
+        webbrowser.open(f"file://{file_location}")
 
 
 if __name__ == "__main__":
