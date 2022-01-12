@@ -1,4 +1,6 @@
+import tempfile
 import webbrowser
+
 import click
 
 from vtrace import dns, geo, traceroute, utils, mapper
@@ -74,10 +76,13 @@ def main(
 
     # Creates a map and saves it to a html file
     map = mapper.TraceRouteMap(geolocation_list)
-    map.save("map.html")
 
-    # if a browser is available render the map
-    webbrowser.open("map.html")
+    # Save the generated HTML map to a temporary file
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".html") as fp:
+        map.save(fp.name)
+
+        # If a browser is available open the map in the browser
+        webbrowser.open(fp.name)
 
 
 if __name__ == "__main__":
