@@ -34,4 +34,5 @@ $ vtrace --help
 | [Scapy](https://scapy.net/) | For creating/sending network packets to implement traceroute functionalities.  |
 | [IPInfo](https://ipinfo.io/) | Geolocation service to get the coordinates of IP addresses.  |
 | [Folium](https://python-visualization.github.io/folium/) | To implement the visual mapping. |
+| [Click](https://click.palletsprojects.com/en/8.0.x/) | To create the command line interface. |
 
