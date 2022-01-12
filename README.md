@@ -6,6 +6,8 @@
 ## Description
 Mimicks a primitive version of [GNU traceroute](https://linux.die.net/man/8/traceroute) while providing a visual map of the route in the browser! 
 
+![Example Traceroute](example/terminal.png)
+![Example Map](example/map.png)
 
 ## Installation
 
