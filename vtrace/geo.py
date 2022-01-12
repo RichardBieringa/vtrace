@@ -6,8 +6,11 @@ from dataclasses import dataclass
 
 try:
     import dotenv
+
     dotenv.load_dotenv()
 except ImportError:
+    pass
+
 
 @dataclass
 class GeoLocationDetails:
