@@ -1,8 +1,7 @@
-from re import A
 import folium
 
 from vtrace import geo
-from typing import List, Tuple
+from typing import List
 from dataclasses import dataclass
 
 
