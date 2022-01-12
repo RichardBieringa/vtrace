@@ -450,7 +450,7 @@ testing = ["filelock"]
 name = "python-dotenv"
 version = "0.19.2"
 description = "Read key-value pairs from a .env file and set them as environment variables"
-category = "main"
+category = "dev"
 optional = false
 python-versions = ">=3.5"
 
@@ -540,7 +540,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "b11828ca74c1f3339aabeee5571def3c51c2f4a214c0922037c0a148e0214c57"
+content-hash = "9a870c4beccc8a237032d438f5ba4bd16b47f084a5c88a69ca23428e026a5700"
 
 [metadata.files]
 aiohttp = [
