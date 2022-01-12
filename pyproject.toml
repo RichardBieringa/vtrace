@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "vtrace"
-version = "0.1.0"
+version = "1.0.0"
 description = "A command line application to trace the route to a host and provide the user with a visual map."
 authors = ["Richard Bieringa <richardbieringa@gmail.com>"]
 keywords = ["vtrace", "traceroute", "visual"]
