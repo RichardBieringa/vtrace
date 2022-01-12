@@ -1,10 +1,7 @@
-import logging
 import socket
 from typing import List
 
 from vtrace import utils
-
-logging.basicConfig(level=logging.INFO)
 
 
 def get_ip_address(hostname: str, port: int = 443) -> List[int]:
@@ -29,8 +26,6 @@ def get_ip_address(hostname: str, port: int = 443) -> List[int]:
 
     # Returns only the ip address / port combo in the list
     address = list(map(lambda x: x[4], address_list))[0]
-
-    logging.info("DNS::get_ip_address(%s, %s) -> %s", hostname, port, address[0])
 
     # address -> (ip_addr, port) tuple
     return address[0]
