@@ -32,6 +32,7 @@ class GeoLocationDetails:
     org: Optional[str] = None
     postal: Optional[str] = None
     timezone: Optional[str] = None
+    readme: Optional[str] = None
 
 
 class Geolocator:
@@ -49,9 +50,9 @@ class Geolocator:
         """Synchronously request geolocation details for an IP address"""
 
         # The result from the ipinfo.io api
-        location = self.handler.getDetails(ip_address, timeout)
+        result = self.handler.getDetails(ip_address, timeout)
 
         # Unpack it into our custom data class
-        details = GeoLocationDetails(**location.details)
+        location_details = GeoLocationDetails(**result.details)
 
-        return details
+        return location_details
