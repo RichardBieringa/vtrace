@@ -13,7 +13,7 @@ python-dotenv = "^0.19.2"
 folium = "^0.12.1"
 
 [tool.poetry.scripts]
-cli = "vtrace.app:main"
+vtrace = "vtrace.app:main"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
