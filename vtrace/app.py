@@ -1,6 +1,7 @@
+import webbrowser
 import click
 
-from vtrace import dns, geo, traceroute, utils
+from vtrace import dns, geo, traceroute, utils, mapper
 
 
 @click.command()
@@ -54,12 +55,29 @@ def main(
         timeout=timeout,
     )
 
-    geolocator = geo.Geolocator()
+    # Creates the ipinfo.io geolocator service
+    # If access_token is set to None, it will automatically try
+    # to get the env var IP_INFO_ACCESS_TOKEN
+    geolocator = geo.Geolocator(access_token=None)
 
+    # Used to store a list of geolocation data for mapping purposes
+    geolocation_list = []
+
+    # Print output to CLI and retrieve geolocation data per ip adddress
     print(f"traceroute to {target} ({ip_address}), {max_ttl} hops max")
     for entry in results:
         print(f"{entry.ttl}\t{entry.ip}\t{entry.rtt:.2f}ms")
+
+        # retrieve geolocation data per ip address
         geo_details = geolocator.geolocate(entry.ip)
+        geolocation_list.append(geo_details)
+
+    # Creates a map and saves it to a html file
+    map = mapper.TraceRouteMap(geolocation_list)
+    map.save("map.html")
+
+    # if a browser is available render the map
+    webbrowser.open("map.html")
 
 
 if __name__ == "__main__":

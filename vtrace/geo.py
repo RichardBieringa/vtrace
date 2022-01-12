@@ -33,6 +33,7 @@ class GeoLocationDetails:
     postal: Optional[str] = None
     timezone: Optional[str] = None
     readme: Optional[str] = None
+    anycast: Optional[str] = None
 
 
 class Geolocator:
